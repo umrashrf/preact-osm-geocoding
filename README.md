@@ -1,8 +1,8 @@
-# react-osm-geocoding
+# preact-osm-geocoding
 
 > Find address locations via OSM Nominatim
 
-[![NPM](https://img.shields.io/npm/v/@paraboly/react-osm-geocoding.svg)](https://www.npmjs.com/package/@paraboly/react-osm-geocoding) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/@umrashrf/preact-osm-geocoding.svg)](https://www.npmjs.com/package/@umrashrf/preact-osm-geocoding) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ![alt text](./images/search.png)
 ![alt text](./images/result.png)
@@ -11,7 +11,7 @@
 ## Install
 
 ```bash
-npm install --save @paraboly/react-osm-geocoding
+npm install --save @umrashrf/preact-osm-geocoding
 ```
 
 ## Usage
@@ -19,8 +19,8 @@ npm install --save @paraboly/react-osm-geocoding
 ```tsx
 import React, { Component } from 'react'
 
-import { ReactOsmGeocoding } from '@paraboly/react-osm-geocoding'
-import '@paraboly/react-osm-geocoding/dist/index.css'
+import { ReactOsmGeocoding } from '@umrashrf/preact-osm-geocoding'
+import '@umrashrf/preact-osm-geocoding/dist/index.css'
 
 class Example extends Component {
   render() {
