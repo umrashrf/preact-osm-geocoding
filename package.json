@@ -1,10 +1,10 @@
 {
-  "name": "@paraboly/react-osm-geocoding",
+  "name": "@umrashrf/preact-osm-geocoding",
   "version": "1.0.2",
   "description": "Find address locations via OSM Nominatim",
   "author": "SchemeSonic",
   "license": "MIT",
-  "repository": "Paraboly/react-osm-geocoding",
+  "repository": "umrashrf/preact-osm-geocoding",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.tsx",
@@ -36,7 +36,7 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "react": "^16.0.0 || ^17.0.0"
+    "preact": "^10.27.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -64,9 +64,9 @@
     "gh-pages": "^2.2.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.0.4",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "^3.4.1",
+    "preact": "^10.27.0",
+    "preact-dom": "^1.0.1",
+    "preact-scripts": "^0.3.0-alpha",
     "typescript": "^3.7.5"
   },
   "files": [
