@@ -1,4 +1,4 @@
-import React from 'preact'
+import * as React from 'preact'
 import { useState, useRef } from 'preact/hooks';
 import styles from './styles.module.css'
 
@@ -75,7 +75,7 @@ export const ReactOsmGeocoding = ({ placeholder = "Enter address", debounce = 10
 
     setShowLoader(true);
 
-    let url = `https://nominatim.openstreetmap.org/search?format=json&q=${address}&city=${city}&countrycodes=${countrycodes}&accept-language=${acceptLanguage}`;
+    let url = `https://nominatim.openstreetmap.org/search?format=json&street=${address}&city=${city}&countrycodes=${countrycodes}&accept-language=${acceptLanguage}`;
 
     if (viewbox.length)
       url = `${url}&viewbox=${viewbox}&bounded=1`;

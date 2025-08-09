@@ -1,4 +1,4 @@
-import React from 'preact'
+import * as React from 'preact'
 import ReactDOM from 'preact-dom'
 import App from './App'
 

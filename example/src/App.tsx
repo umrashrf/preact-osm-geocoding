@@ -1,4 +1,4 @@
-import React from 'preact'
+import * as React from 'preact'
 
 import { ReactOsmGeocoding, Result } from 'preact-osm-geocoding'
 import 'react-osm-geocoding/dist/index.css'
