@@ -41,6 +41,10 @@ class Example extends Component {
 | acceptLanguage| Check Nominatim search API for details | `string` | "tr" |
 | viewbox       | Bbox to filter query results, check Nominatim for more information | `<x1>,<y1>,<x2>,<y2>` | "" |
 | callback      | Function returns selected address information | `Function` | undefined |
+| outerClassNames      | Top level class names | `string` | undefined |
+| inputClassNames      | HTML input element class names | `string` | undefined |
+| resultsClassNames      | Class names for results holder div | `string` | undefined |
+| resultClassNames      | Class names for each result row | `string` | undefined |
 
 ## License
 
