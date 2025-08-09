@@ -3,14 +3,19 @@ import { useState, useRef } from 'preact/hooks';
 import styles from './styles.module.css'
 
 interface Props {
+  id?: string,
+  name?: string,
   placeholder?: string,
   debounce?: number,
-  iconUrl?: string,
   callback?: Function,
   city?: string,
   countrycodes?: string,
   acceptLanguage?: string,
-  viewbox?: string
+  viewbox?: string,
+  outerClassNames?: string,
+  inputClassNames?: string,
+  resultsClassNames?: string,
+  resultClassNames?: string,
 }
 
 export interface Result {
@@ -36,10 +41,10 @@ export class debouncedMethod<T> {
   }) as any;
 }
 
-const renderResults = (results: any, callback: Function | undefined, dispatch: (value: boolean) => void) =>
-  <div className={styles.results}>
+const renderResults = (results: any, callback: Function | undefined, dispatch: (value: boolean) => void, resultsClassNames: string = "results", resultClassNames: string = "result") =>
+  <div className={resultsClassNames}>
     {results.map((result: Result, index: number) =>
-      <div key={index} className={styles.result} onClick={() => {
+      <div key={index} className={resultClassNames} onClick={() => {
         if (callback) {
           callback(result);
           dispatch(false);
@@ -51,7 +56,7 @@ const renderResults = (results: any, callback: Function | undefined, dispatch: (
   </div>
 
 
-export const ReactOsmGeocoding = ({ placeholder = "Enter address", debounce = 1000, iconUrl = "https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/search-512.png", callback, city = "Konya", countrycodes = "tr", acceptLanguage = "tr", viewbox = "" }: Props) => {
+export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter address", debounce = 1000, callback, city = "", countrycodes = "ca", acceptLanguage = "en", viewbox = "", outerClassNames = "reactOsmGeocoding", inputClassNames = "", resultsClassNames = "results", resultClassNames = "result" }: Props) => {
   const [results, setResults] = useState<Partial<Result[]>>([]);
   const [showResults, setShowResults] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
@@ -75,7 +80,17 @@ export const ReactOsmGeocoding = ({ placeholder = "Enter address", debounce = 10
 
     setShowLoader(true);
 
-    let url = `https://nominatim.openstreetmap.org/search?format=json&street=${address}&city=${city}&countrycodes=${countrycodes}&accept-language=${acceptLanguage}`;
+    let url = `https://nominatim.openstreetmap.org/search?format=json&accept-language=${acceptLanguage}`;
+
+    if (city) {
+      url = `${url}&street=${address}&city=${city}`;
+    } else {
+      url = `${url}&q=${address}`
+    }
+
+    if (countrycodes) {
+      url = `${url}&countrycodes=${countrycodes}`;
+    }
 
     if (viewbox.length)
       url = `${url}&viewbox=${viewbox}&bounded=1`;
@@ -96,16 +111,15 @@ export const ReactOsmGeocoding = ({ placeholder = "Enter address", debounce = 10
 
 
 
-  return <div className={styles.reactOsmGeocoding} ref={mainContainerRef}>
-    <input type="text" name="geocoding" id="geocoding" placeholder={placeholder}
+  return <div className={outerClassNames} ref={mainContainerRef}>
+    <input type="text" name={name} id={id} placeholder={placeholder} className={inputClassNames}
       onClick={() => setShowResults(true)}
-      onChange={event => {
+      onKeyUp={event => {
         const target = event.target as HTMLTextAreaElement;
         debouncer.invoke(target.value);
       }
       } />
-    <img src={iconUrl} width={"30px"} height={"30px"} />
     {showLoader && <div className={styles.loader}></div>}
-    {(results.length && showResults) ? renderResults(results, callback, setShowResults) : ""}
+    {(results.length && showResults) ? renderResults(results, callback, setShowResults, resultsClassNames, resultClassNames) : ""}
   </div>
 }
