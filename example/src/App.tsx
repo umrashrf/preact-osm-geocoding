@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'preact'
 
-import { ReactOsmGeocoding, Result } from 'react-osm-geocoding'
+import { ReactOsmGeocoding, Result } from 'preact-osm-geocoding'
 import 'react-osm-geocoding/dist/index.css'
 
 const App = () => {

@@ -17,7 +17,7 @@ npm install --save @umrashrf/preact-osm-geocoding
 ## Usage
 
 ```tsx
-import React, { Component } from 'react'
+import React, { Component } from 'preact'
 
 import { ReactOsmGeocoding } from '@umrashrf/preact-osm-geocoding'
 import '@umrashrf/preact-osm-geocoding/dist/index.css'
