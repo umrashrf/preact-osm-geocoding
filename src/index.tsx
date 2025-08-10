@@ -120,6 +120,11 @@ export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter add
       }
       } />
     {showLoader && <div className={styles.loader}></div>}
-    {(results.length && showResults) ? renderResults(results, callback, setShowResults, resultsClassNames, resultClassNames) : ""}
+    {(results.length && showResults) ? renderResults(results, callback, (toggle) => {
+      setShowResults(toggle);
+      if (!toggle) {
+        setResults([]);
+      }
+    }, resultsClassNames, resultClassNames) : ""}
   </div>
 }
