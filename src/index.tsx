@@ -5,6 +5,7 @@ import styles from './styles.module.css'
 interface Props {
   id?: string,
   name?: string,
+  inputValue?: string,
   placeholder?: string,
   debounce?: number,
   callback?: Function,
@@ -56,7 +57,7 @@ const renderResults = (results: any, callback: Function | undefined, dispatch: (
   </div>
 
 
-export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter address", debounce = 1000, callback, city = "", countrycodes = "ca", acceptLanguage = "en", viewbox = "", outerClassNames = "reactOsmGeocoding", inputClassNames = "", resultsClassNames = "results", resultClassNames = "result" }: Props) => {
+export const ReactOsmGeocoding = ({ id = "", name = "", inputValue = "", placeholder = "Enter address", debounce = 1000, callback, city = "", countrycodes = "ca", acceptLanguage = "en", viewbox = "", outerClassNames = "reactOsmGeocoding", inputClassNames = "", resultsClassNames = "results", resultClassNames = "result" }: Props) => {
   const [results, setResults] = useState<Partial<Result[]>>([]);
   const [showResults, setShowResults] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
@@ -112,7 +113,13 @@ export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter add
 
 
   return <div className={outerClassNames} ref={mainContainerRef}>
-    <input type="text" name={name} id={id} placeholder={placeholder} className={inputClassNames}
+    <input
+      id={id}
+      name={name}
+      type="text"
+      value={inputValue}
+      placeholder={placeholder}
+      className={inputClassNames}
       onClick={() => setShowResults(true)}
       onKeyUp={event => {
         const target = event.target as HTMLTextAreaElement;
