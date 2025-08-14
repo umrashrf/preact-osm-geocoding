@@ -126,7 +126,7 @@ export const ReactOsmGeocoding = ({ id = "", name = "", inputValue = "", placeho
         debouncer.invoke(target.value);
       }
       } />
-    {showLoader && <div className={loaderClassNames}></div>}
+    <div className={showLoader ? loaderClassNames : "hidden"}>Loading...</div>
     {(results.length && showResults) ? renderResults(results, callback, (toggle) => {
       setShowResults(toggle);
       if (!toggle) {
