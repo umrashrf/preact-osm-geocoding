@@ -126,7 +126,8 @@ export const ReactOsmGeocoding = ({ id = "", name = "", inputValue = "", placeho
         debouncer.invoke(target.value);
       }}
       autocomplete="off"
-      data-1p-ignore data-lpignore="true"
+      data-1p-ignore
+      data-lpignore="true"
       data-protonpass-ignore="true" />
     <div className={showLoader ? loaderClassNames : "hidden"}>Loading...</div>
     {(results.length && showResults) ? renderResults(results, callback, (toggle) => {
