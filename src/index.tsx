@@ -1,6 +1,5 @@
 import * as React from 'preact'
 import { useState, useRef } from 'preact/hooks';
-import styles from './styles.module.css'
 
 interface Props {
   id?: string,
