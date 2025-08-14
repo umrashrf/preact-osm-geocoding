@@ -15,6 +15,7 @@ interface Props {
   viewbox?: string,
   outerClassNames?: string,
   inputClassNames?: string,
+  loaderClassNames?: string,
   resultsClassNames?: string,
   resultClassNames?: string,
 }
@@ -57,7 +58,7 @@ const renderResults = (results: any, callback: Function | undefined, dispatch: (
   </div>
 
 
-export const ReactOsmGeocoding = ({ id = "", name = "", inputValue = "", placeholder = "Enter address", debounce = 1000, callback, city = "", countrycodes = "ca", acceptLanguage = "en", viewbox = "", outerClassNames = "reactOsmGeocoding", inputClassNames = "", resultsClassNames = "results", resultClassNames = "result" }: Props) => {
+export const ReactOsmGeocoding = ({ id = "", name = "", inputValue = "", placeholder = "Enter address", debounce = 1000, callback, city = "", countrycodes = "ca", acceptLanguage = "en", viewbox = "", outerClassNames = "reactOsmGeocoding", inputClassNames = "", loaderClassNames = "loader", resultsClassNames = "results", resultClassNames = "result" }: Props) => {
   const [results, setResults] = useState<Partial<Result[]>>([]);
   const [showResults, setShowResults] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
@@ -126,7 +127,7 @@ export const ReactOsmGeocoding = ({ id = "", name = "", inputValue = "", placeho
         debouncer.invoke(target.value);
       }
       } />
-    {showLoader && <div className={styles.loader}></div>}
+    {showLoader && <div className={loaderClassNames}></div>}
     {(results.length && showResults) ? renderResults(results, callback, (toggle) => {
       setShowResults(toggle);
       if (!toggle) {
