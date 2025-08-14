@@ -124,8 +124,10 @@ export const ReactOsmGeocoding = ({ id = "", name = "", inputValue = "", placeho
       onKeyUp={event => {
         const target = event.target as HTMLTextAreaElement;
         debouncer.invoke(target.value);
-      }
-      } />
+      }}
+      autocomplete="off"
+      data-1p-ignore data-lpignore="true"
+      data-protonpass-ignore="true" />
     <div className={showLoader ? loaderClassNames : "hidden"}>Loading...</div>
     {(results.length && showResults) ? renderResults(results, callback, (toggle) => {
       setShowResults(toggle);
