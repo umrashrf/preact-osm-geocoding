@@ -81,7 +81,7 @@ export const ReactOsmGeocoding = ({ id = "", name = "", inputValue = "", placeho
 
     setShowLoader(true);
 
-    let url = `https://nominatim.openstreetmap.org/search?format=json&accept-language=${acceptLanguage}`;
+    let url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&accept-language=${acceptLanguage}`;
 
     if (city) {
       url = `${url}&street=${address}&city=${city}`;
