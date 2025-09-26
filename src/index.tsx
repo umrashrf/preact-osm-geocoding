@@ -20,6 +20,18 @@ interface Props {
 }
 
 export interface Result {
+  address: {
+    'ISO3166-2-lvl4'?: string,
+    city?: string,
+    town?: string,
+    state?: string,
+    country?: string,
+    country_code?: string,
+    county?: string,
+    region?: string,
+    municipality?: string,
+    village?: string,
+  },
   boundingbox: Array<string>,
   display_name: string,
   lat: string,
@@ -99,7 +111,19 @@ export const ReactOsmGeocoding = ({ id = "", name = "", inputValue = "", placeho
     fetch(url)
       .then(response => response.json())
       .then((data) => {
-        setResults(data);
+        const filterByCity = data.filter((result: Result) => {
+          if (!result) return false;
+          if (!result.hasOwnProperty('address') || !result.address) return false;
+
+          const city = result.address.city || result.address.town || result.address.municipality || result.address.village;
+          if (!city || city === undefined) {
+            return false;
+          }
+
+          return true;
+        });
+
+        setResults(filterByCity);
         setShowResults(true);
       })
       .catch(err => console.warn(err))
