@@ -57,7 +57,7 @@ const renderResults = (results: any, callback: Function | undefined, dispatch: (
   </div>
 
 
-export const ReactOsmGeocoding = ({ id = "", name = "", inputValue = "", placeholder = "Enter address", debounce = 1000, callback, city = "", countrycodes = "ca", acceptLanguage = "en", viewbox = "", outerClassNames = "reactOsmGeocoding", inputClassNames = "", loaderClassNames = "loader", resultsClassNames = "results", resultClassNames = "result" }: Props) => {
+export const ReactOsmGeocoding = ({ id = "", name = "", inputValue = "", placeholder = "Enter address", debounce = 1000, callback, city = "", acceptLanguage = "en", viewbox = "", outerClassNames = "reactOsmGeocoding", inputClassNames = "", loaderClassNames = "loader", resultsClassNames = "results", resultClassNames = "result" }: Props) => {
   const [results, setResults] = useState<Partial<Result[]>>([]);
   const [showResults, setShowResults] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
@@ -89,9 +89,9 @@ export const ReactOsmGeocoding = ({ id = "", name = "", inputValue = "", placeho
       url = `${url}&q=${address}`
     }
 
-    if (countrycodes) {
-      url = `${url}&countrycodes=${countrycodes}`;
-    }
+    // if (countrycodes) {
+    //   url = `${url}&countrycodes=${countrycodes}`;
+    // }
 
     if (viewbox.length)
       url = `${url}&viewbox=${viewbox}&bounded=1`;
