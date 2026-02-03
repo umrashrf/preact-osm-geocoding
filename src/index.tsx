@@ -61,10 +61,8 @@ const renderResults = (results: any, callback: Function | undefined, dispatch: (
       <div key={index} className={resultClassNames} onClick={() => {
         if (callback) {
           callback(result);
-        }
-        setTimeout(() => {
           dispatch(false);
-        }, 500);
+        }
       }}>
         {result?.display_name}
       </div>
