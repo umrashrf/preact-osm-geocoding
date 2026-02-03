@@ -152,6 +152,7 @@ export const ReactOsmGeocoding = ({ id = "", name = "", inputValue = "", placeho
       }}
       onBlur={event => {
         setShowResults(false);
+        setResults([]);
         onBlur(event);
       }}
       autocomplete="off"
