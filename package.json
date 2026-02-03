@@ -1,6 +1,6 @@
 {
   "name": "@umrashrf/preact-osm-geocoding",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Find address locations via OSM Nominatim",
   "author": "SchemeSonic",
   "license": "MIT",
