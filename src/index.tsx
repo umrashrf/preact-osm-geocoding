@@ -149,6 +149,7 @@ export const ReactOsmGeocoding = ({ id = "", name = "", inputValue = "", placeho
         const target = event.target as HTMLTextAreaElement;
         debouncer.invoke(target.value);
       }}
+      onBlur={() => setShowResults(false)}
       autocomplete="off"
       data-1p-ignore
       data-lpignore="true"
