@@ -32,6 +32,7 @@ export interface Result {
     region?: string,
     municipality?: string,
     village?: string,
+    aeroway?: string,
   },
   boundingbox: Array<string>,
   display_name: string,
@@ -116,7 +117,8 @@ export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter add
           if (!result) return false;
           if (!result.hasOwnProperty('address') || !result.address) return false;
 
-          const city = result.address.city || result.address.town || result.address.municipality || result.address.village;
+          const address = result.address;
+          const city = address?.city ?? address?.town ?? address?.municipality ?? address?.village ?? address?.aeroway ?? null;
           if (!city || city === undefined) {
             return false;
           }
