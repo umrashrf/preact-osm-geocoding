@@ -148,7 +148,12 @@ export const ReactOsmGeocoding = ({ id = "", name = "", inputValue = "", placeho
       onClick={() => setShowResults(true)}
       onKeyUp={event => {
         const target = event.target as HTMLTextAreaElement;
-        debouncer.invoke(target.value);
+        if (!target.value || target.value.length === 0) {
+          setShowResults(false);
+          setResults([]);
+        } else {
+          debouncer.invoke(target.value);
+        }
       }}
       onBlur={event => onBlur(event)}
       autocomplete="off"
