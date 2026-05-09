@@ -5,6 +5,7 @@ interface Props {
   id?: string,
   name?: string,
   placeholder?: string,
+  disabled?: boolean,
   debounce?: number,
   callback?: Function,
   onBlur?: Function,
@@ -69,7 +70,7 @@ const renderResults = (results: any, callback: Function | undefined, dispatch: (
   </div>
 
 
-export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter address", debounce = 1000, callback, onBlur = () => { }, city = "", acceptLanguage = "en", viewbox = "", outerClassNames = "reactOsmGeocoding", inputClassNames = "", loaderClassNames = "loader", resultsClassNames = "results", resultClassNames = "result" }: Props) => {
+export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter address", disabled = false, debounce = 1000, callback, onBlur = () => { }, city = "", acceptLanguage = "en", viewbox = "", outerClassNames = "reactOsmGeocoding", inputClassNames = "", loaderClassNames = "loader", resultsClassNames = "results", resultClassNames = "result" }: Props) => {
   const [results, setResults] = useState<Partial<Result[]>>([]);
   const [showResults, setShowResults] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
@@ -142,6 +143,7 @@ export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter add
       name={name}
       type="text"
       placeholder={placeholder}
+      disabled={disabled}
       className={inputClassNames}
       onClick={() => setShowResults(true)}
       onKeyUp={event => {
