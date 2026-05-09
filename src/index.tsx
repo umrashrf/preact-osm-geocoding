@@ -4,7 +4,6 @@ import { useState, useRef } from 'preact/hooks';
 interface Props {
   id?: string,
   name?: string,
-  inputValue?: string,
   placeholder?: string,
   debounce?: number,
   callback?: Function,
@@ -70,7 +69,7 @@ const renderResults = (results: any, callback: Function | undefined, dispatch: (
   </div>
 
 
-export const ReactOsmGeocoding = ({ id = "", name = "", inputValue = "", placeholder = "Enter address", debounce = 1000, callback, onBlur = () => { }, city = "", acceptLanguage = "en", viewbox = "", outerClassNames = "reactOsmGeocoding", inputClassNames = "", loaderClassNames = "loader", resultsClassNames = "results", resultClassNames = "result" }: Props) => {
+export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter address", debounce = 1000, callback, onBlur = () => { }, city = "", acceptLanguage = "en", viewbox = "", outerClassNames = "reactOsmGeocoding", inputClassNames = "", loaderClassNames = "loader", resultsClassNames = "results", resultClassNames = "result" }: Props) => {
   const [results, setResults] = useState<Partial<Result[]>>([]);
   const [showResults, setShowResults] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
@@ -142,7 +141,6 @@ export const ReactOsmGeocoding = ({ id = "", name = "", inputValue = "", placeho
       id={id}
       name={name}
       type="text"
-      value={inputValue}
       placeholder={placeholder}
       className={inputClassNames}
       onClick={() => setShowResults(true)}
