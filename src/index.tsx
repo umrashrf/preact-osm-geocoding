@@ -40,6 +40,10 @@ export interface Result {
   lon: string
 }
 
+export interface Error {
+  msg: string,
+}
+
 export class debouncedMethod<T> {
   constructor(method: T, debounceTime: number) {
     this._method = method;
@@ -56,12 +60,17 @@ export class debouncedMethod<T> {
   }) as any;
 }
 
-const renderResults = (results: any, callback: Function | undefined, dispatch: (value: boolean) => void, resultsClassNames: string = "results", resultClassNames: string = "result") =>
+const renderResults = (results: any, errors: any, callback: Function | undefined, dispatch: (value: boolean) => void, resultsClassNames: string = "results", resultClassNames: string = "result") =>
   <div className={resultsClassNames}>
+    {errors.map((error: Error, index: number) =>
+      <div key={'error' + index} className={resultClassNames}>
+        {error?.msg}
+      </div>
+    )}
     {results.map((result: Result, index: number) =>
-      <div key={index} className={resultClassNames} onClick={() => {
+      <div key={'result' + index} className={resultClassNames} onClick={() => {
         if (callback) {
-          callback(result);
+          callback(result, errors);
           dispatch(false);
         }
       }}>
@@ -73,6 +82,7 @@ const renderResults = (results: any, callback: Function | undefined, dispatch: (
 
 export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter address", disabled = false, debounce = 1000, callback, onBlur = () => { }, city = "", acceptLanguage = "en", viewbox = "", outerClassNames = "reactOsmGeocoding", inputClassNames = "", loaderClassNames = "loader", resultsClassNames = "results", resultClassNames = "result" }: Props) => {
   const [results, setResults] = useState<Partial<Result[]>>([]);
+  const [errors, setErrors] = useState<Partial<Error[]>>([]);
   const [showResults, setShowResults] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const mainContainerRef = useRef<HTMLDivElement>(null);
@@ -111,7 +121,10 @@ export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter add
       url = `${url}&viewbox=${viewbox}&bounded=1`;
 
     fetch(url)
-      .then(response => response.json())
+      .then(response => {
+        if (response.ok) return response.json();
+        return [];
+      })
       .then((data) => {
         const filterByCity = data.filter((result: Result) => {
           if (!result) return false;
@@ -129,7 +142,12 @@ export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter add
         setResults(filterByCity);
         setShowResults(true);
       })
-      .catch(err => console.warn(err))
+      .catch(err => {
+        console.warn(err);
+        setResults([]);
+        setErrors([{ msg: "Network Error - Try again in a few minutes" }]);
+        setShowResults(true);
+      })
       .finally(() => setShowLoader(false));
   }
 
@@ -163,7 +181,7 @@ export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter add
       data-lpignore="true"
       data-protonpass-ignore="true" />
     <div className={showLoader ? loaderClassNames : "hidden"}>Loading...</div>
-    {(results.length && showResults) ? renderResults(results, callback, (toggle) => {
+    {((results.length || errors.length > 0) && showResults) ? renderResults(results, errors, callback, (toggle) => {
       setShowResults(toggle);
       if (!toggle) {
         setResults([]);
