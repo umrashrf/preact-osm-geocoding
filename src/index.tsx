@@ -156,8 +156,6 @@ export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter add
     getGeocoding(address);
   }, debounce);
 
-  let typingTimer: number;
-  const doneTypingInterval = 2000; // 1 second pause in milliseconds
 
 
   return <div className={outerClassNames} ref={mainContainerRef}>
@@ -170,22 +168,13 @@ export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter add
       className={inputClassNames}
       onClick={() => setShowResults(true)}
       onKeyUp={event => {
-        window.clearTimeout(typingTimer);
-        
         const target = event.target as HTMLTextAreaElement;
         if (!target.value || target.value.length === 0) {
           setShowResults(false);
           setResults([]);
+        } else {
+          debouncer.invoke(target.value);
         }
-
-        typingTimer = window.setTimeout(() => {
-          if (!target.value || target.value.length === 0) {
-            setShowResults(false);
-            setResults([]);
-          } else {
-            debouncer.invoke(target.value);
-          }
-        }, doneTypingInterval);
       }}
       onBlur={event => onBlur(event)}
       autocomplete="off"
