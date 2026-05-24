@@ -136,7 +136,6 @@ export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter add
 
     fetch(url, { signal })
       .then(response => {
-        clearHttpRequests();
         if (response.ok) return response.json();
         return [];
       })
