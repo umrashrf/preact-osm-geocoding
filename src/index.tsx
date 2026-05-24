@@ -161,7 +161,7 @@ export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter add
         console.warn(err);
         if (err.name !== "AbortError") {
           setResults([]);
-          setErrors([{ msg: "Network Error - Try again in a few minutes" }]);
+          setErrors([{ msg: "Too fast - Try again in a few minutes" }]);
           setShowResults(true);
         }
       })
