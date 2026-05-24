@@ -87,6 +87,7 @@ export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter add
   const [showResults, setShowResults] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const mainContainerRef = useRef<HTMLDivElement>(null);
+  const [httpControllers, setHttpControllers] = useState<Partial<AbortController[]>>([]);
 
   document.addEventListener('click', function (event) {
     var isClickInside = mainContainerRef?.current?.contains(event.target as Node);
@@ -98,6 +99,13 @@ export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter add
   document.onkeyup = function (event) {
     if (event.key === "Escape") {
       setShowResults(false);
+    }
+  }
+
+  function clearHttpRequests() {
+    if (httpControllers && httpControllers.length > 0) {
+      httpControllers.forEach(httpController => httpController?.abort());
+      setHttpControllers([]);
     }
   }
 
@@ -121,7 +129,12 @@ export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter add
     if (viewbox.length)
       url = `${url}&viewbox=${viewbox}&bounded=1`;
 
-    fetch(url)
+    clearHttpRequests();
+
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    fetch(url, { signal })
       .then(response => {
         if (response.ok) return response.json();
         return [];
@@ -145,11 +158,15 @@ export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter add
       })
       .catch(err => {
         console.warn(err);
-        setResults([]);
-        setErrors([{ msg: "Network Error - Try again in a few minutes" }]);
-        setShowResults(true);
+        if (err.name !== "AbortError") {
+          setResults([]);
+          setErrors([{ msg: "Too fast - Try again in a few minutes" }]);
+          setShowResults(true);
+        }
       })
       .finally(() => setShowLoader(false));
+
+    setHttpControllers([...httpControllers, controller]);
   }
 
   var debouncer = new debouncedMethod((address: string) => {
