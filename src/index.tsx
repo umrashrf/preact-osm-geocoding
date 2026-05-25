@@ -1,5 +1,5 @@
 import * as React from 'preact'
-import { useState, useRef } from 'preact/hooks';
+import { useState, useRef, useEffect } from 'preact/hooks';
 import './styles.module.css';
 
 interface Props {
@@ -87,26 +87,35 @@ export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter add
   const [showResults, setShowResults] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const mainContainerRef = useRef<HTMLDivElement>(null);
-  const [httpControllers, setHttpControllers] = useState<Partial<AbortController[]>>([]);
+  const controllerRef = useRef<AbortController | null>(null);
 
-  document.addEventListener('click', function (event) {
-    var isClickInside = mainContainerRef?.current?.contains(event.target as Node);
-    if (!isClickInside) {
-      setShowResults(false);
+  useEffect(() => {
+    function callback(event: MouseEvent) {
+      var isClickInside = mainContainerRef?.current?.contains(event.target as Node);
+      if (!isClickInside) {
+        setShowResults(false);
+      }
     }
-  });
 
-  document.onkeyup = function (event) {
-    if (event.key === "Escape") {
-      setShowResults(false);
+    document.addEventListener('click', callback);
+
+    return () => document.removeEventListener('click', callback);
+  }, []);
+
+  useEffect(() => {
+    function callback(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setShowResults(false);
+      }
     }
-  }
+    document.addEventListener("keyup", callback);
+
+    return () => document.removeEventListener("keyup", callback);;
+
+  }, []);
 
   function clearHttpRequests() {
-    if (httpControllers && httpControllers.length > 0) {
-      httpControllers.forEach(httpController => httpController?.abort());
-      setHttpControllers([]);
-    }
+    controllerRef.current?.abort();
   }
 
   function getGeocoding(address = "") {
@@ -132,6 +141,7 @@ export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter add
     clearHttpRequests();
 
     const controller = new AbortController();
+    controllerRef.current = controller;
     const signal = controller.signal;
 
     fetch(url, { signal })
@@ -165,14 +175,13 @@ export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter add
         }
       })
       .finally(() => setShowLoader(false));
-
-    setHttpControllers([...httpControllers, controller]);
   }
 
-  var debouncer = new debouncedMethod((address: string) => {
-    getGeocoding(address);
-  }, debounce);
-
+  const debouncer = useRef(
+    new debouncedMethod((address: string) => {
+      getGeocoding(address);
+    }, debounce)
+  ).current;
 
 
   return <div className={outerClassNames} ref={mainContainerRef}>
