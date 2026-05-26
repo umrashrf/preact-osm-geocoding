@@ -106,6 +106,8 @@ export const ReactOsmGeocoding = ({ id = "", name = "", placeholder = "Enter add
     function callback(event: KeyboardEvent) {
       if (event.key === "Escape") {
         setShowResults(false);
+      } else if (event.key === "Backspace" || event.key === "Delete") {
+        setShowResults(false);
       }
     }
     document.addEventListener("keyup", callback);
